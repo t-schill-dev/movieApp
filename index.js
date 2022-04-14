@@ -12,13 +12,12 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), { 
 //setup the logger
 app.use(morgan("combined", { stream: accessLogStream }));
 
+app.use(express.static(path.join(__dirname, "./public")));
 
 //Server response when requesting
 app.get("/", (req, res) => {
     res.send("Welcome to my app");
 });
-
-app.use(express.static("public"));
 
 app.use((err, req, res, next) => {
     console.log(err.stack);
