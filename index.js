@@ -259,6 +259,36 @@ app.put('/users/:id', (req, res) => {
     }
 
 });
+//UPDATE movie from favorites list
+app.put('/users/:id/:movieTitle', (req, res) => {
+    const { id, movieTitle } = req.params;
+
+    let user = users.find(user => user.id == id);
+
+    if (user) {
+        user.favoriteMovies.push(movieTitle);
+        res.status(200).send(`${movieTitle} has been added to favorites`)
+    } else {
+        res.status(400).send('user not found')
+    }
+
+});
+
+//DELETE movie from favorites list
+app.delete('/users/:id/:movieTitle', (req, res) => {
+    const { id, movieTitle } = req.params;
+
+    let user = users.find(user => user.id == id);
+
+    if (user) {
+        user.favoriteMovies = user.favoriteMovies.filter(title => title !== movieTitle);
+        res.status(200).send(`${movieTitle} has been removed from favorites`)
+    } else {
+        res.status(400).send('user not found')
+    }
+
+});
+
 
 // READ
 app.get('/movies', (req, res) => {
@@ -278,12 +308,12 @@ app.get('/movies/:title', (req, res) => {
 });
 
 // need work!!!!!!!!!!
-// READ
+//READ
 // app.get('/movies/genres/:genreName', (req, res) => {
 //     const { genreName } = req.params;
 //     const genreArray = movies.find((movie) => movie.genres);
 
-//     const genre = genreArray.forEach(name => name === genreName);
+//     const genre = genreArray.find(name => name === genreName);
 
 //     if (genre) {
 //         res.status(200).send(genre);
