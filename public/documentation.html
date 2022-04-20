@@ -1,19 +1,105 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie App</title>
+    <title>Documentation Movie App</title>
+    <link rel="stylesheet" href="https://stackedit.io/style.css" />
 </head>
 
-<body>
-    <h1>Documentation Page</h1>
-    <h2>Objective</h2>
-    <p>To build the server-side component of a “movies” web application. The web application will provide users with access to information about different movies, directors, and genres. Users will be able to sign up, update their personal information, and
-        create a list of their favorite movies.</p>
+<body class="stackedit">
+    <div class="stackedit__html">
+        <h1 id="documentation-page">Documentation Page</h1>
+        <h2 id="objective">Objective</h2>
+        <p>To build the server-side component of a “movies” web application. The web application will provide users with access to information about different movies, directors, and genres. Users will be able to sign up, update their personal information,
+            and create a list of their favorite movies</p>
+        <h2 id="requests">REQUESTS</h2>
 
+        <table>
+            <thead>
+                <tr>
+                    <th>Request</th>
+                    <th>URL</th>
+                    <th>HTTP Method</th>
+                    <th>Request Data Format</th>
+                    <th>RESPONSE DATA BODY FORMAT</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Get a list of ALL movies to the user</td>
+                    <td>/movies</td>
+                    <td>GET</td>
+                    <td>none</td>
+                    <td>JSON Object holding data about all movies</td>
+                </tr>
+                <tr>
+                    <td>Get description of movie</td>
+                    <td>/movies/:title</td>
+                    <td>GET</td>
+                    <td>none</td>
+                    <td>JSON Object holding data about specific movie</td>
+                </tr>
+                <tr>
+                    <td>Get genre of movie</td>
+                    <td>/movies/genres/:genreName</td>
+                    <td>GET</td>
+                    <td>none</td>
+                    <td>JSON Object with movie according to param</td>
+                </tr>
+                <tr>
+                    <td>Get directors info</td>
+                    <td>/movies/directors/:directorName</td>
+                    <td>GET</td>
+                    <td>none</td>
+                    <td>JSON Object of director</td>
+                </tr>
+                <tr>
+                    <td>Create new user</td>
+                    <td>/users</td>
+                    <td>POST</td>
+                    <td>A JSON Object holding information about user like this: <code>{ "name": "Mary", "favoriteMovies": "Inception"}</code></td>
+                    <td>A JSON Object holding information about user including ID like this: <code>{ "id": "1", "name": "Mary", "favoriteMovies": "Inception"}</code></td>
+                </tr>
+                <tr>
+                    <td>Update user information(name)</td>
+                    <td>/users/:id</td>
+                    <td>PUT</td>
+                    <td>none</td>
+                    <td>JSON Object of updated user</td>
+                </tr>
+                <tr>
+                    <td>Add movie to favorite movie list</td>
+                    <td>/users/:id/:movieTitle</td>
+                    <td>PUT</td>
+                    <td>none</td>
+                    <td>Text about outcome of request</td>
+                </tr>
+                <tr>
+                    <td>Delete movie form favorite movie list</td>
+                    <td>/users/:id/:movieTitle</td>
+                    <td>DELETE</td>
+                    <td>none</td>
+                    <td>Text about outcome of request</td>
+                </tr>
+                <tr>
+                    <td>Delete user</td>
+                    <td>/users/:id/</td>
+                    <td>DELETE</td>
+                    <td>none</td>
+                    <td>Text about outcome of request</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 
 </html>
