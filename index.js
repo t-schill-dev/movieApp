@@ -289,7 +289,7 @@ app.delete('/users/:id/:movieTitle', (req, res) => {
 
 });
 
-//DELETE movie from favorites list
+//DELETE User
 app.delete('/users/:id/', (req, res) => {
     const { id } = req.params;
 
