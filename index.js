@@ -1,9 +1,12 @@
 const express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
-    uuid = require('uuid');
+    uuid = require('uuid'),
+    path = require('path');
 
 app.use(bodyParser.json());
+
+app.use(express.static(path.join(__dirname, '.public')));
 
 let users = [{
         "id": 1,
