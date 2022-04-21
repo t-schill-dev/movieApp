@@ -322,20 +322,17 @@ app.get('/movies/:title', (req, res) => {
     }
 });
 
-// need work!!!!!!!!!!
 //READ
-// app.get('/movies/genres/:genreName', (req, res) => {
-//     const { genreName } = req.params;
-//     const genreArray = movies.find((movie) => movie.genres);
+app.get('/movies/genres/:genreName', (req, res) => {
+    const { genreName } = req.params;
+    const genreMovies = movies.filter((movie) => movie.genres.includes(genreName));
 
-//     const genre = genreArray.find(name => name === genreName);
-
-//     if (genre) {
-//         res.status(200).send(genre);
-//     } else {
-//         res.status(400).send('no genre found');
-//     }
-// });
+    if (genreMovies) {
+        res.status(200).send(genreMovies);
+    } else {
+        res.status(400).send('no genre found');
+    }
+});
 
 // READ
 app.get('/movies/directors/:directorName', (req, res) => {
