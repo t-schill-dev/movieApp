@@ -6,7 +6,7 @@ const express = require('express'),
 
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, '.public')));
+app.use(express.static(path.join(__dirname, './public')));
 
 let users = [{
         "id": 1,
@@ -39,6 +39,61 @@ let movies = [{
         'actors': 'Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page, Tom Hardy',
         'plot': 'A thief, who steals corporate secrets through use of dream-sharing technology, is given the inverse task of planting an idea into the mind of a CEO.',
         'imageUrl': 'https://images-na.ssl-images-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg'
+    },
+    {
+        "title": "Taxi Driver",
+        "year": "1976",
+        "runtime": "113",
+        "genres": [
+            "Crime",
+            "Drama"
+        ],
+        "director": "Martin Scorsese",
+        "actors": "Diahnne Abbott, Frank Adu, Victor Argo, Gino Ardito",
+        "plot": "A mentally unstable Vietnam War veteran works as a night-time taxi driver in New York City where the perceived decadence and sleaze feeds his urge for violent action, attempting to save a preadolescent prostitute in the process.",
+        "posterUrl": "https://images-na.ssl-images-amazon.com/images/M/MV5BNGQxNDgzZWQtZTNjNi00M2RkLWExZmEtNmE1NjEyZDEwMzA5XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg"
+    },
+    {
+        "title": "The Beach",
+        "year": "2000",
+        "runtime": "119",
+        "genres": [
+            "Adventure",
+            "Drama",
+            "Romance"
+        ],
+        "director": "Danny Boyle",
+        "actors": "Leonardo DiCaprio, Daniel York, Patcharawan Patarakijjanon, Virginie Ledoyen",
+        "plot": "Twenty-something Richard travels to Thailand and finds himself in possession of a strange map. Rumours state that it leads to a solitary beach paradise, a tropical bliss - excited and intrigued, he sets out to find it.",
+        "posterUrl": "https://images-na.ssl-images-amazon.com/images/M/MV5BN2ViYTFiZmUtOTIxZi00YzIxLWEyMzUtYjQwZGNjMjNhY2IwXkEyXkFqcGdeQXVyNDk3NzU2MTQ@._V1_SX300.jpg"
+    },
+    {
+        "title": "The Grand Budapest Hotel",
+        "year": "2014",
+        "runtime": "99",
+        "genres": [
+            "Adventure",
+            "Comedy",
+            "Crime"
+        ],
+        "director": "Wes Anderson",
+        "actors": "Ralph Fiennes, F. Murray Abraham, Mathieu Amalric, Adrien Brody",
+        "plot": "The adventures of Gustave H, a legendary concierge at a famous hotel from the fictional Republic of Zubrowka between the first and second World Wars, and Zero Moustafa, the lobby boy who becomes his most trusted friend.",
+        "posterUrl": "https://images-na.ssl-images-amazon.com/images/M/MV5BMzM5NjUxOTEyMl5BMl5BanBnXkFtZTgwNjEyMDM0MDE@._V1_SX300.jpg"
+    },
+    {
+        "title": "Interstellar",
+        "year": "2014",
+        "runtime": "169",
+        "genres": [
+            "Adventure",
+            "Drama",
+            "Sci-Fi"
+        ],
+        "director": "Christopher Nolan",
+        "actors": "Ellen Burstyn, Matthew McConaughey, Mackenzie Foy, John Lithgow",
+        "plot": "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
+        "posterUrl": "https://images-na.ssl-images-amazon.com/images/M/MV5BMjIxNTU4MzY4MF5BMl5BanBnXkFtZTgwMzM4ODI3MjE@._V1_SX300.jpg"
     },
     {
 
@@ -84,7 +139,7 @@ let movies = [{
         'genres': [
             'Crime',
             'Drama',
-            'Mystery'
+
         ],
         'director': {
             'name': 'Paul McGuigan',
@@ -142,7 +197,7 @@ let movies = [{
             'Romance'
         ],
         'director': {
-            'name': 'Danny Boyle, Loveleen Tandan',
+            'name': 'Danny Boyle',
             // 'bio': ,
             // 'birth': ,
         },
@@ -161,9 +216,9 @@ let movies = [{
             'Comedy'
         ],
         'director': {
-            'name': 'Pierre Coffin, Chris Renaud',
-            // 'bio': ,
-            // 'birth': ,
+            'name': 'Pierre Coffin'
+                // 'bio': ,
+                // 'birth': ,
         },
         'actors': 'Steve Carell, Kristen Wiig, Benjamin Bratt, Miranda Cosgrove',
         'plot': 'When Gru, the world\'s most super - bad turned super - dad has been recruited by a team of officials to stop lethal muscle and a host of Gru\'s own, He has to fight back with new gadgetry, cars, and more minion madness.',
@@ -180,7 +235,7 @@ let movies = [{
             'Comedy'
         ],
         'director': {
-            'name': 'Eric Darnell, Tom McGrath',
+            'name': 'Eric Darnell',
             // 'bio': ,
             // 'birth': ,
         },
@@ -224,7 +279,7 @@ let movies = [{
         'year': '2013',
         'runtime': '180',
         'genres': [
-            'Biography',
+
             'Comedy',
             'Crime'
         ],
