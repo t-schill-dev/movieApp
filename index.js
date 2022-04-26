@@ -9,15 +9,40 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, './public')));
 
 let users = [{
-        "name": "Mary",
+        "name": "Mary Jones",
+        "password": "1234test",
+        "email": "maryjones@web.com",
+        "birthday": new Date("1987-07-23"),
         "favoriteMovies": []
     },
-
     {
-        "name": "Tom",
+        "name": "Partick Persuasy",
+        "password": "prettywoman12",
+        "email": "patrickp@gmail.com",
+        "birthday": new Date("1977-11-13"),
+        "favoriteMovies": []
+    },
+    {
+        "name": "Kevin King",
+        "password": "kevki333",
+        "email": "kingkev@gmail.com",
+        "birthday": new Date("1990-01-07"),
+        "favoriteMovies": []
+    },
+    {
+        "name": "Norah Jones",
+        "password": "lanorah45",
+        "email": "norahjones2@gmail.com",
+        "birthday": new Date("1987-07-23"),
+        "favoriteMovies": []
+    },
+    {
+        "name": "Stanislav Wasinsky",
+        "password": "pakistanisky",
+        "email": "staniwasi@gmail.com",
+        "birthday": new Date("1995-05-12"),
         "favoriteMovies": []
     }
-
 ];
 
 let movies = [{
@@ -66,7 +91,7 @@ let movies = [{
         ],
         "director": {
             "name": "Danny Boyle",
-            "bio": "is a British filmmaker, producer and writer from Radcliffe, Greater Manchester. He is known for directing 28 Days Later, 127 Hours, Trainspotting, T2 Trainspotting, Slumdog Millionaire, Millions, Shallow Grave, The Beach, Yesterday and Steve Jobs. He won many awards for Slumdog Milliomaire. He was in a relationship with Gail Stevens and had three children.",
+            "bio": "Boyle is a British filmmaker, producer and writer from Radcliffe, Greater Manchester. He is known for directing 28 Days Later, Slumdog Millionaire, Millions, The Beach, Yesterday and Steve Jobs. He won many awards for Slumdog Milliomaire. He was in a relationship with Gail Stevens and had three children.",
             "birth": new Date("1956-10-20")
         },
         "actors": ["Leonardo DiCaprio", "Daniel York", "Patcharawan Patarakijjanon", "Virginie Ledoyen"],
@@ -418,8 +443,8 @@ app.get('/movies/genres/:genreName', (req, res) => {
 });
 
 // READ
-app.get('/movies/directors/:directorName', (req, res) => {
-    const { directorName } = req.params; // syntax object destructuring === const title = req.params.title;
+app.get('/movies/director/:directorName', (req, res) => {
+    const { directorName } = req.params;
     const director = movies.find(movie => movie.director.name === directorName).director;
 
     if (director) {
@@ -428,13 +453,34 @@ app.get('/movies/directors/:directorName', (req, res) => {
         res.status(400).send('no director found');
     }
 });
+//READ actors of certain movie
+app.get('/movies/:movieTitle/actors', (req, res) => {
+    const { movieTitle } = req.params;
+    const title = movies.find(movie => movie.title === movieTitle);
 
+    if (title) {
+        res.status(200).json(title.actors)
+    } else {
+        res.status(400).send('title not found')
+    }
+});
+//READ all movies in list of actor
+app.get('/movies/actors/:actorName', (req, res) => {
+    const { actorName } = req.params;
+    const movieName = movies.filter(movie => movie.actors.includes(actorName));
 
-
-
-
-
-
+    if (movieName) {
+        res.status(200).send(movieName)
+            //Code below supposed to return array of movies with same actor
+            // movieName.forEach(movie => {
+            //     let list = [];
+            //     list.push(movie.title);
+            // });
+            // res.status(200).send(list);
+    } else {
+        res.status(400).send('no match found')
+    }
+});
 
 app.listen(8080, () => {
     console.log('Your app ist listening on port 8080');
