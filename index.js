@@ -2,8 +2,17 @@ const express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
     uuid = require('uuid'),
-    path = require('path');
+    path = require('path'),
+    mongoose = require('mongoose'),
+    Models = require('./models.js');
 
+const Movies = Models.Movie,
+    Users = Models.User;
+
+mongoose.connect('mongodb://localhost:27017/movieApp', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, './public')));
