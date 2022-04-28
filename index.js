@@ -1,3 +1,5 @@
+//Dependencies
+
 const res = require('express/lib/response');
 
 const express = require('express'),
@@ -11,6 +13,15 @@ const express = require('express'),
 const Movies = Models.Movie,
     Users = Models.User;
 
+//Dependencies for Authentication of Users
+const passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategy,
+    passportJWT = require('passport-jwt');
+
+let JWTStrategy = passportJWT.Strategy,
+    ExtractJWT = passportJWT.ExtractJWT;
+
+
 mongoose.connect('mongodb://localhost:27017/movieApp', {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -19,7 +30,46 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, './public')));
+/*
+//Use passport
+let auth = require('./auth')(app);
+require('./passport');
 
+// Basic HTTP Auth
+passport.use(new LocalStrategy({
+    usernameField: 'username',
+    passwordField: 'password'
+}, (username, password, callback) => {
+    console.log(username + ' ' + password);
+    Users.findOne({ username: username }, (error, user) => {
+        if (error) {
+            console.log(error);
+            return callback(error);
+        }
+        if (!user) {
+            console.log('incorrect username');
+            return callback(null, false, { message: 'Incorrect username or password' });
+        }
+        console.log('finished');
+        return callback(null, user);
+    });
+}));
+
+//JTW Auth
+passport.user(new JWTStrategy({
+    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+    secretOrKey: 'your_jwt_secret',
+}, (jwtPayload, callback) => {
+    return Users.findById(jwtPayload._id)
+        .then((user) => {
+            return callback(null, user);
+        })
+        .catch((error) => {
+            return callback(error)
+        });
+}));
+
+*/
 // let users = [{
 //         "name": "Mary Jones",
 //         "password": "1234test",
@@ -495,15 +545,20 @@ app.get('/movies/:MovieTitle', (req, res) => {
 
 app.get('/movies/genres/:genreName', (req, res) => {
     Movies.find({ genres: req.params.genreName }, { title: true })
-
-    .then((title) => {
-        res.status(200).send(title);
-    })
-
-    .catch((err) => {
-        console.error(err);
-        res.status(400).send('Genre not found');
-    })
+        .then((movies) => {
+            // Condition empty array
+            if (movies.length === 0) {
+                console.log('title not found');
+                res.status(400).send('title not found');
+            } else {
+                console.log('title found');
+                res.status(200).json(movies);
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(400).send('Genre not found');
+        })
 });
 
 
@@ -526,16 +581,19 @@ app.get('/movies/director/:directorName', (req, res) => {
 
 //READ all movies actor is in
 app.get('/movies/actors/:actorsName', (req, res) => {
-    Movies.find({ actors: req.params.actorsName }, { title: true })
-
-    .then((actors) => {
-        res.status(200).send(actors);
-    })
-
-    .catch((err) => {
-        console.error(err);
-        res.status(400).send('Actor not found');
-    })
+    Movies.find({ 'actors': req.params.actorsName }, { title: true })
+        .then((movies) => {
+            // Condition empty array
+            if (movies.length === 0) {
+                res.status(400).send('No actor found');
+            } else {
+                res.status(200).json(movies);
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).send(`Error: ${err}`);
+        });
 });
 
 //READ cast of movie
