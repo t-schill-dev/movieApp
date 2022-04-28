@@ -35,14 +35,14 @@
                     <td>JSON Object holding data about all movies</td>
                 </tr>
                 <tr>
-                    <td>Get description of movie</td>
+                    <td>Get a certain movie</td>
                     <td>/movies/:title</td>
                     <td>GET</td>
                     <td>none</td>
                     <td>JSON Object holding data about specific movie</td>
                 </tr>
                 <tr>
-                    <td>Get genre of movie</td>
+                    <td>Get all movies with requested genre</td>
                     <td>/movies/genres/:genreName</td>
                     <td>GET</td>
                     <td>none</td>
@@ -60,7 +60,7 @@
                     <td>/movies/:movieTitle/actors</td>
                     <td>GET</td>
                     <td>none</td>
-                    <td>JSON Object of starring actors</td>
+                    <td>Array of starring actors</td>
                 </tr>
                 <tr>
                     <td>Get movies associated with actor</td>
@@ -74,35 +74,42 @@
                     <td>/users</td>
                     <td>POST</td>
                     <td>A JSON Object holding information about user like this: <code>{ "name": "Mary", "favoriteMovies": "Inception"}</code></td>
-                    <td>A JSON Object holding information about user including ID like this: <code>{ "id": "1", "name": "Mary", "favoriteMovies": "Inception"}</code></td>
+                    <td>A JSON Object holding information about user including ID like this: <code>{ "id": "1", "username": "Mary", "favoriteMovies": "Inception"}</code></td>
                 </tr>
                 <tr>
-                    <td>Update user information(name)</td>
-                    <td>/users/:id</td>
+                    <td>Get user by name</td>
+                    <td>/users/:Username</td>
+                    <td>GET</td>
+                    <td>none</td>
+                    <td>A JSON Object holding information about user like this: <code>{ "username": "Mary", "password": "password", "email": "email", favoriteMovies": "Inception"}</code></td>
+                </tr>
+                <tr>
+                    <td>Update user information</td>
+                    <td>/users/:Username</td>
                     <td>PUT</td>
-                    <td>JSON Object containing name like :<code>{ "name": "Mary" } </code> </td>
+                    <td>JSON Object containing required fields like :<code>"username": "Mary", "password": "password", "email": "email" </code> </td>
                     <td>JSON Object of updated user</td>
                 </tr>
                 <tr>
                     <td>Add movie to favorite movie list</td>
-                    <td>/users/:id/:movieTitle</td>
-                    <td>PUT</td>
+                    <td>/users/:Username/movies/:MovieID</td>
+                    <td>POST</td>
                     <td>none</td>
-                    <td>Text about outcome of request</td>
+                    <td>JSON Object of updated User</td>
                 </tr>
                 <tr>
                     <td>Delete movie form favorite movie list</td>
-                    <td>/users/:id/:movieTitle</td>
+                    <td>/users/:Username/movies/:MovieID</td>
                     <td>DELETE</td>
                     <td>none</td>
-                    <td>Text about outcome of request</td>
+                    <td>JSON Object of updated User</td>
                 </tr>
                 <tr>
                     <td>Delete user</td>
-                    <td>/users/:id/</td>
+                    <td>/users/:Username</td>
                     <td>DELETE</td>
                     <td>none</td>
-                    <td>Text about outcome of request</td>
+                    <td>Success message of deleted or not found user</td>
                 </tr>
                 <tr>
                     <td></td>
