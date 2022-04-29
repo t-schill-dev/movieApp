@@ -28,6 +28,20 @@
             </thead>
             <tbody>
                 <tr>
+                    <td>Create new user</td>
+                    <td>/users</td>
+                    <td>POST</td>
+                    <td>A JSON Object holding information about user like this: <code>{ "name": "Mary", "favoriteMovies": "Inception"}</code></td>
+                    <td>A JSON Object holding information about user including ID like this: <code>{ "id": "1", "username": "Mary", "password": "password", "email": "email", "birthday": "yyyy-mm-dd"}</code></td>
+                </tr>
+                <tr>
+                    <td>Login user</td>
+                    <td>/login</td>
+                    <td>POST</td>
+                    <td>A JSON Object or parameters holding information about user like this: <code>{ "username": "Mary", "password":"password"}</code></td>
+                    <td>A JSON Object holding information about user including ID and creating token like this: <code>{ "id": "1", "username": "Mary", "password": "password", "email": "email", "birthday": "yyyy-mm-dd"}{"token":"..."}</code></td>
+                </tr>
+                <tr>
                     <td>Get a list of ALL movies to the user</td>
                     <td>/movies</td>
                     <td>GET</td>
@@ -69,13 +83,7 @@
                     <td>none</td>
                     <td>JSON Object of all movies with same actor</td>
                 </tr>
-                <tr>
-                    <td>Create new user</td>
-                    <td>/users</td>
-                    <td>POST</td>
-                    <td>A JSON Object holding information about user like this: <code>{ "name": "Mary", "favoriteMovies": "Inception"}</code></td>
-                    <td>A JSON Object holding information about user including ID like this: <code>{ "id": "1", "username": "Mary", "password": "password", "email": "email", "birthday": "yyyy-mm-dd"}</code></td>
-                </tr>
+
                 <tr>
                     <td>Get user by name</td>
                     <td>/users/:Username</td>
