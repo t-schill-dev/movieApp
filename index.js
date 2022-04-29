@@ -32,10 +32,10 @@ require('./passport');
 // CREATE
 app.post('/users', (req, res) => {
     //check if user exists
-    Users.findOne({ username: req.body.Username })
+    Users.findOne({ username: req.body.username })
         .then((user) => {
             if (user) {
-                return res.status(400).send(req.body.Username + 'already exists');
+                return res.status(400).send(req.body.username + 'already exists');
             } else {
                 //create User with mongoose create command
                 Users
@@ -54,19 +54,18 @@ app.post('/users', (req, res) => {
         })
         .catch((error) => {
             console.error(error);
-            res.status(500).send('Error:' + error);
+            res.status(500).send('Error: ' + error);
         });
 
 });
 //READ user by username
 
 app.get('/users/:Username', (req, res) => {
-    Users.findOne({ username: req.params.username })
+    Users.findOne({ username: req.params.Username })
         .then((user) => {
             res.json(user);
         })
         .catch((err) => {
-            console.error(err);
             res.status(500).send('Error: ' + err);
         });
 });
