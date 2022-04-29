@@ -1,4 +1,17 @@
+//Dependencies for Authentication of Users
+const passport = require('passport'),
+    Models = require('./models.js'),
+    LocalStrategy = require('passport-local').Strategy,
+    passportJWT = require('passport-jwt');
+
+let Users = Models.User,
+    JWTStrategy = passportJWT.Strategy,
+    ExtractJWT = passportJWT.ExtractJWT;
+
+
+
 // Basic HTTP Auth
+
 passport.use(new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password'
@@ -21,7 +34,7 @@ passport.use(new LocalStrategy({
 //JTW Auth
 passport.user(new JWTStrategy({
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'your_jwt_secret',
+    secretOrKey: 'your_jwt_secret'
 }, (jwtPayload, callback) => {
     return Users.findById(jwtPayload._id)
         .then((user) => {

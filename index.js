@@ -1,8 +1,7 @@
 //Dependencies
 
-const res = require('express/lib/response');
-
 const express = require('express'),
+    res = require('express/lib/response'),
     app = express(),
     bodyParser = require('body-parser'),
     uuid = require('uuid'),
@@ -12,14 +11,6 @@ const express = require('express'),
 
 const Movies = Models.Movie,
     Users = Models.User;
-
-//Dependencies for Authentication of Users
-const passport = require('passport'),
-    LocalStrategy = require('passport-local').Strategy,
-    passportJWT = require('passport-jwt');
-
-let JWTStrategy = passportJWT.Strategy,
-    ExtractJWT = passportJWT.ExtractJWT;
 
 
 mongoose.connect('mongodb://localhost:27017/movieApp', {
@@ -33,16 +24,15 @@ app.use(express.static(path.join(__dirname, './public')));
 
 //Use passport from external files
 let auth = require('./auth')(app);
+const passport = require('passport');
 require('./passport');
-
-
 
 //USER
 
 // CREATE
 app.post('/users', (req, res) => {
     //check if user exists
-    Users.findOne({ Username: req.body.Username })
+    Users.findOne({ username: req.body.Username })
         .then((user) => {
             if (user) {
                 return res.status(400).send(req.body.Username + 'already exists');
@@ -50,10 +40,10 @@ app.post('/users', (req, res) => {
                 //create User with mongoose create command
                 Users
                     .create({
-                        Username: req.body.Username,
-                        Password: req.body.Password,
-                        Email: req.body.Email,
-                        Birthday: req.body.Birthday
+                        username: req.body.username,
+                        password: req.body.password,
+                        email: req.body.email,
+                        birthday: req.body.birthday
                     })
                     .then((user) => { res.status(201).json(user) })
                     .catch((error) => {
@@ -71,7 +61,7 @@ app.post('/users', (req, res) => {
 //READ user by username
 
 app.get('/users/:Username', (req, res) => {
-    Users.findOne({ Username: req.params.Username })
+    Users.findOne({ username: req.params.username })
         .then((user) => {
             res.json(user);
         })
@@ -83,12 +73,12 @@ app.get('/users/:Username', (req, res) => {
 
 //UPDATE User
 app.put('/users/:Username', (req, res) => {
-    Users.findOneAndUpdate({ Username: req.params.Username }, {
+    Users.findOneAndUpdate({ username: req.params.Username }, {
             $set: {
-                Username: req.body.Username,
-                Password: req.body.Password,
-                Email: req.body.Email,
-                Birthday: req.body.Birthday
+                username: req.body.username,
+                password: req.body.password,
+                email: req.body.email,
+                birthday: req.body.birthday
             }
         }, { new: true }, // this line makes sure that the updated document is returned
         (err, updatedUser) => {
@@ -104,7 +94,7 @@ app.put('/users/:Username', (req, res) => {
 
 //UPDATE movie from favorites list
 app.post('/users/:Username/movies/:MovieID', (req, res) => {
-    Users.findOneAndUpdate({ Username: req.params.Username }, { $push: { FavoriteMovies: req.params.MovieID } }, { new: true },
+    Users.findOneAndUpdate({ username: req.params.username }, { $push: { favoriteMovies: req.params.MovieID } }, { new: true },
         (err, updatedUser) => {
             if (err) {
                 console.error(err);
@@ -119,7 +109,7 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
 
 //DELETE movie from favorites list
 app.delete('/users/:Username/movies/:MovieID', (req, res) => {
-    Users.findOneAndUpdate({ Username: req.params.Username }, { $pull: { FavoriteMovies: req.params.MovieID } }, { new: true },
+    Users.findOneAndUpdate({ username: req.params.username }, { $pull: { favoriteMovies: req.params.MovieID } }, { new: true },
         (err, updatedUser) => {
             if (err) {
                 console.error(err);
@@ -132,12 +122,12 @@ app.delete('/users/:Username/movies/:MovieID', (req, res) => {
 
 //DELETE User
 app.delete('/users/:Username', (req, res) => {
-    Users.findOneAndRemove({ Username: req.params.Username })
+    Users.findOneAndRemove({ username: req.params.username })
         .then((user) => {
             if (!user) {
-                res.status(400).send(req.params.Username + ' was not found');
+                res.status(400).send(req.params.username + ' was not found');
             } else {
-                res.status(200).send(req.params.Username + ' was deleted');
+                res.status(200).send(req.params.username + ' was deleted');
             }
         })
         .catch((err) => {
@@ -151,7 +141,7 @@ app.delete('/users/:Username', (req, res) => {
 
 
 // READ all movies
-app.get('/movies', (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
     Movies.find()
         .then((movies) => {
             res.json(movies);
