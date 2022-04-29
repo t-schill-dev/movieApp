@@ -1,6 +1,7 @@
 //Dependencies
 
 const express = require('express'),
+    cors = require('cors'),
     res = require('express/lib/response'),
     app = express(),
     bodyParser = require('body-parser'),
@@ -21,6 +22,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, './public')));
+
+//Restriction of cross origin access app.use needs to be before middleware routes like auth
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) { // if specific origin wasn't found on the list
+            let message = 'The CORS policy for this application doesn\'t allow access from origin ' + origin;
+            return callback(new Error(message), false);
+        }
+        return callback(null, true);
+    }
+}));
 
 //Use passport from external files
 let auth = require('./auth')(app);
