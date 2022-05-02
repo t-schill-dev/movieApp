@@ -18,10 +18,20 @@ const { check, validationResult } = require('express-validator');
 // Connection to port 
 const port = process.env.PORT || 8080;
 
-mongoose.connect('mongodb://localhost:27017/movieApp', {
+//Connection to local DB
+/*mongoose.connect('mongodb://localhost:27017/movieApp', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});*/
+
+//Connection to remote DB
+mongoose.connect('process.env.CONNECTION_URI', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
+
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
