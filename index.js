@@ -108,9 +108,14 @@ app.post('/users', (req, res) => {
 app.get('/users/:Username', (req, res) => {
     Users.findOne({ username: req.params.Username })
         .then((user) => {
-            res.json(user);
+            if (!user) {
+                res.status(500).send('User does not exist');
+            } else {
+                return res.status(200).json(user);
+            };
         })
         .catch((err) => {
+            console.error(err);
             res.status(500).send('Error: ' + err);
         });
 });
