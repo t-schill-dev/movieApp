@@ -15,6 +15,9 @@ const Movies = Models.Movie,
 
 const { check, validationResult } = require('express-validator');
 
+// Connection to port 
+const port = process.env.PORT || 8080;
+
 mongoose.connect('mongodb://localhost:27017/movieApp', {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -46,6 +49,19 @@ require('./passport');
 
 // CREATE
 app.post('/users', (req, res) => {
+    //Validation logic for request
+    [
+        check('username', 'Username is required').isLength({ min: 5 }),
+        check('username', 'username contains non alphanumeric characters').isAlphanumeric(),
+        check('password', 'Password is required').not().isEmpty(),
+        check('email', 'Email does not appear to be valid').isEmail()
+    ], (req, res) => {
+        // check validation object for errors
+        let errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+    }
     let hashedPassword = Users.hashPassword(req.body.password);
     //check if user exists
     Users.findOne({ username: req.body.username })
@@ -88,6 +104,19 @@ app.get('/users/:Username', (req, res) => {
 
 //UPDATE User
 app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
+    //Input validation
+    [
+        check('username', 'Username is required').isLength({ min: 5 }),
+        check('username', 'username contains non alphanumeric characters').isAlphanumeric(),
+        check('password', 'Password is required').not().isEmpty(),
+        check('email', 'Email does not appear to be valid').isEmail()
+    ], (req, res) => {
+        // check validation object for errors
+        let errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+    }
     Users.findOneAndUpdate({ username: req.params.Username }, {
             $set: {
                 username: req.body.username,
@@ -253,7 +282,7 @@ app.get('/movies/:movieTitle/actors/', passport.authenticate('jwt', { session: f
         });
 });
 
-app.listen(8080, () => {
-    console.log('Your app ist listening on port 8080');
+app.listen(port, '0.0.0.0', () => {
+    console.log('Your app ist listening on port ' + port);
 
 });
