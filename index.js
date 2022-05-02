@@ -13,6 +13,7 @@ const express = require('express'),
 const Movies = Models.Movie,
     Users = Models.User;
 
+const { check, validationResult } = require('express-validator');
 
 mongoose.connect('mongodb://localhost:27017/movieApp', {
     useNewUrlParser: true,
