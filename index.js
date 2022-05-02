@@ -103,6 +103,18 @@ app.post('/users',
             });
 
     });
+//READ all existing users
+app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
+    Users.find()
+        .then((users) => {
+            res.json(users);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+        });
+});
+
 //READ user by username
 
 app.get('/users/:Username', (req, res) => {
@@ -184,12 +196,12 @@ app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { se
 
 //DELETE User
 app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
-    Users.findOneAndRemove({ username: req.params.username })
+    Users.findOneAndRemove({ username: req.params.Username })
         .then((user) => {
             if (!user) {
-                res.status(400).send(req.params.username + ' was not found');
+                res.status(400).send(req.params.Username + ' was not found');
             } else {
-                res.status(200).send(req.params.username + ' was deleted');
+                res.status(200).send(req.params.Username + ' was deleted');
             }
         })
         .catch((err) => {
