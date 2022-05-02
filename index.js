@@ -25,7 +25,7 @@ const port = process.env.PORT || 8080;
 });*/
 
 //Connection to remote DB
-mongoose.connect('process.env.CONNECTION_URI', {
+mongoose.connect(process.env.CONNECTION_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -54,6 +54,11 @@ app.use(cors({
 let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
+
+// GET Welcome page
+app.get("/", (req, res) => {
+    res.status(200).send("Welcome to web-flix-movies!");
+});
 
 //USER
 
