@@ -252,24 +252,6 @@ app.get('/movies/:movieTitle/actors/', passport.authenticate('jwt', { session: f
         });
 });
 
-//OLD READ all movies in list of actor
-// app.get('/movies/actors/:actorName', (req, res) => {
-//     const { actorName } = req.params;
-//     const movieName = movies.filter(movie => movie.actors.includes(actorName));
-
-//     if (movieName) {
-//         res.status(200).send(movieName)
-//             //Code below supposed to return array of movies with same actor
-//             // movieName.forEach(movie => {
-//             //     let list = [];
-//             //     list.push(movie.title);
-//             // });
-//             // res.status(200).send(list);
-//     } else {
-//         res.status(400).send('no match found')
-//     }
-// });
-
 app.listen(8080, () => {
     console.log('Your app ist listening on port 8080');
 
