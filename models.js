@@ -26,7 +26,7 @@ let userSchema = mongoose.Schema({
 });
 
 //Imlement hash encrypting
-userSchema.static.hashPassword = (password) => {
+userSchema.statics.hashPassword = (password) => {
     return bcrypt.hashSync(password, 10);
 };
 
