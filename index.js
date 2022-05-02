@@ -61,7 +61,7 @@ app.get("/", (req, res) => {
 //USER
 
 // CREATE
-app.post('/users', (req, res) => {
+app.post('/users',
     //Validation logic for request
     [
         check('username', 'Username is required').isLength({ min: 5 }),
@@ -74,35 +74,35 @@ app.post('/users', (req, res) => {
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
         }
-    }
-    let hashedPassword = Users.hashPassword(req.body.password);
-    //check if user exists
-    Users.findOne({ username: req.body.username })
-        .then((user) => {
-            if (user) {
-                return res.status(400).send(req.body.username + 'already exists');
-            } else {
-                //create User with mongoose create command
-                Users
-                    .create({
-                        username: req.body.username,
-                        password: hashedPassword,
-                        email: req.body.email,
-                        birthday: req.body.birthday
-                    })
-                    .then((user) => { res.status(201).json(user) })
-                    .catch((error) => {
-                        console.error(error);
-                        res.status(500).send('Error: ' + error);
-                    })
-            }
-        })
-        .catch((error) => {
-            console.error(error);
-            res.status(500).send('Error: ' + error);
-        });
 
-});
+        let hashedPassword = Users.hashPassword(req.body.password);
+        //check if user exists
+        Users.findOne({ username: req.body.username })
+            .then((user) => {
+                if (user) {
+                    return res.status(400).send(req.body.username + 'already exists');
+                } else {
+                    //create User with mongoose create command
+                    Users
+                        .create({
+                            username: req.body.username,
+                            password: hashedPassword,
+                            email: req.body.email,
+                            birthday: req.body.birthday
+                        })
+                        .then((user) => { res.status(201).json(user) })
+                        .catch((error) => {
+                            console.error(error);
+                            res.status(500).send('Error: ' + error);
+                        })
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+                res.status(500).send('Error: ' + error);
+            });
+
+    });
 //READ user by username
 
 app.get('/users/:Username', (req, res) => {
@@ -121,7 +121,7 @@ app.get('/users/:Username', (req, res) => {
 });
 
 //UPDATE User
-app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }),
     //Input validation
     [
         check('username', 'Username is required').isLength({ min: 5 }),
@@ -134,24 +134,24 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (r
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
         }
-    }
-    Users.findOneAndUpdate({ username: req.params.Username }, {
-            $set: {
-                username: req.body.username,
-                password: req.body.password,
-                email: req.body.email,
-                birthday: req.body.birthday
-            }
-        }, { new: true }, // this line makes sure that the updated document is returned
-        (err, updatedUser) => {
-            if (err) {
-                console.error(err);
-                res.status(500).send('Error: ' + err);
-            } else {
-                res.json(updatedUser);
-            }
-        });
-});
+
+        Users.findOneAndUpdate({ username: req.params.Username }, {
+                $set: {
+                    username: req.body.username,
+                    password: req.body.password,
+                    email: req.body.email,
+                    birthday: req.body.birthday
+                }
+            }, { new: true }, // this line makes sure that the updated document is returned
+            (err, updatedUser) => {
+                if (err) {
+                    console.error(err);
+                    res.status(500).send('Error: ' + err);
+                } else {
+                    res.json(updatedUser);
+                }
+            });
+    });
 
 
 //UPDATE movie from favorites list
