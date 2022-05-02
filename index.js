@@ -30,15 +30,13 @@ mongoose.connect(process.env.CONNECTION_URI, {
     useUnifiedTopology: true
 });
 
-
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, './public')));
 
 //Restriction of cross origin access app.use needs to be before middleware routes like auth
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+let allowedOrigins = ['http://localhost:8080', 'https://web-flix-movies.herokuapp.com/'];
 app.use(cors({
     origin: (origin, callback) => {
         if (!origin) return callback(null, true);
