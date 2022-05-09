@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, "./public")));
 
 //Restriction of cross origin access app.use needs to be before middleware routes like auth
 let allowedOrigins = [
-    "http://localhost:8080",
+    "http://localhost:1234",
     "https://web-flix-movies.herokuapp.com/",
 ];
 app.use(
