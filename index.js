@@ -132,7 +132,7 @@ app.get(
 
 app.get("/users/:Username", passport.authenticate("jwt", { session: false }), (req, res) => {
     Users.findOne({ username: req.params.Username })
-        .populate('FavoriteMovies', '_id Title')
+        .populate('favoriteMovies', '_id title')
         .then((user) => {
             if (!user) {
                 res.status(500).send("User does not exist");
@@ -210,7 +210,7 @@ app.delete(
     "/users/:Username/movies/:MovieID",
     passport.authenticate("jwt", { session: false }),
     (req, res) => {
-        Users.findOneAndUpdate({ username: req.params.username }, { $pull: { favoriteMovies: req.params.MovieID } }, { new: true },
+        Users.findOneAndUpdate({ username: req.params.Username }, { $pull: { favoriteMovies: req.params.MovieID } }, { new: true },
             (err, updatedUser) => {
                 if (err) {
                     console.error(err);
