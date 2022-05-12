@@ -130,8 +130,9 @@ app.get(
 
 //READ user by username
 
-app.get("/users/:Username", (req, res) => {
+app.get("/users/:Username", passport.authenticate("jwt", { session: false }), (req, res) => {
     Users.findOne({ username: req.params.Username })
+        .populate('FavoriteMovies', '_id Title')
         .then((user) => {
             if (!user) {
                 res.status(500).send("User does not exist");
