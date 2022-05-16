@@ -2,7 +2,7 @@
 
 const express = require("express"),
     cors = require("cors"),
-    res = require("express/lib/response"),
+    jwt_decode = require('jwt-decode'),
     app = express(),
     bodyParser = require("body-parser"),
     uuid = require("uuid"),
@@ -14,6 +14,7 @@ const Movies = Models.Movie,
     Users = Models.User;
 
 const { check, validationResult } = require("express-validator");
+const res = require("express/lib/response");
 
 //Connection to local DB
 // mongoose.connect('mongodb://localhost:27017/movieApp', {
@@ -50,11 +51,13 @@ let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
 
-//Connection to remote DB
+// Connection to remote DB
 mongoose.connect(process.env.CONNECTION_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
+
+
 
 // GET Welcome page
 app.get("/", (req, res) => {
@@ -192,16 +195,25 @@ app.post(
     "/users/:Username/movies/:MovieID",
     passport.authenticate("jwt", { session: false }),
     (req, res) => {
-        Users.findOneAndUpdate({ username: req.params.Username }, { $push: { favoriteMovies: req.params.MovieID } }, { new: true },
-            (err, updatedUser) => {
-                if (err) {
-                    console.error(err);
-                    res.status(500).send("Error: " + err);
-                } else {
-                    res.json(updatedUser);
+        //Reject change of data by different user than current one
+        let authHeader = req.headers.authorization;
+        let token = authHeader.split(' ')[1];
+        let decoded = jwt_decode(token);
+        let user = req.params.Username;
+        if (decoded.username !== user) {
+            res.status(401).send('This operation is not authorized')
+        } else {
+            Users.findOneAndUpdate({ username: req.params.Username }, { $push: { favoriteMovies: req.params.MovieID } }, { new: true },
+                (err, updatedUser) => {
+                    if (err) {
+                        console.error(err);
+                        res.status(500).send("Error: " + err);
+                    } else {
+                        res.json(updatedUser);
+                    }
                 }
-            }
-        );
+            );
+        }
     }
 );
 
@@ -210,16 +222,25 @@ app.delete(
     "/users/:Username/movies/:MovieID",
     passport.authenticate("jwt", { session: false }),
     (req, res) => {
-        Users.findOneAndUpdate({ username: req.params.Username }, { $pull: { favoriteMovies: req.params.MovieID } }, { new: true },
-            (err, updatedUser) => {
-                if (err) {
-                    console.error(err);
-                    res.status(500).send("Error: " + err);
-                } else {
-                    res.json(updatedUser);
+        //Reject change of data by different user than current one
+        let authHeader = req.headers.authorization;
+        let token = authHeader.split(' ')[1];
+        let decoded = jwt_decode(token);
+        let user = req.params.Username;
+        if (decoded.username !== user) {
+            res.status(401).send('This operation is not authorized')
+        } else {
+            Users.findOneAndUpdate({ username: req.params.Username }, { $pull: { favoriteMovies: req.params.MovieID } }, { new: true },
+                (err, updatedUser) => {
+                    if (err) {
+                        console.error(err);
+                        res.status(500).send("Error: " + err);
+                    } else {
+                        res.json(updatedUser);
+                    }
                 }
-            }
-        );
+            );
+        }
     }
 );
 
@@ -228,18 +249,27 @@ app.delete(
     "/users/:Username",
     passport.authenticate("jwt", { session: false }),
     (req, res) => {
-        Users.findOneAndRemove({ username: req.params.Username })
-            .then((user) => {
-                if (!user) {
-                    res.status(400).send(req.params.Username + " was not found");
-                } else {
-                    res.status(200).send(req.params.Username + " was deleted");
-                }
-            })
-            .catch((err) => {
-                console.error(err);
-                res.status(500).send("Error: " + err);
-            });
+        //Reject change of data by different user than current one
+        let authHeader = req.headers.authorization;
+        let token = authHeader.split(' ')[1];
+        let decoded = jwt_decode(token);
+        let user = req.params.Username;
+        if (decoded.username !== user) {
+            res.status(401).send('This operation is not authorized')
+        } else {
+            Users.findOneAndRemove({ username: req.params.Username })
+                .then((user) => {
+                    if (!user) {
+                        res.status(400).send(req.params.Username + " was not found");
+                    } else {
+                        res.status(200).send(req.params.Username + " was deleted");
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                    res.status(500).send("Error: " + err);
+                });
+        }
     }
 );
 
