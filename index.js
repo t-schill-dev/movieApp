@@ -135,7 +135,6 @@ app.get(
 
 app.get("/users/:Username", passport.authenticate("jwt", { session: false }), (req, res) => {
     Users.findOne({ username: req.params.Username })
-        .populate('favoriteMovies', '_id title')
         .then((user) => {
             if (!user) {
                 res.status(500).send("User does not exist");
@@ -195,7 +194,7 @@ app.post(
     "/users/:Username/movies/:MovieID",
     passport.authenticate("jwt", { session: false }),
     (req, res) => {
-        //Reject change of data by different user than current one
+        // Reject change of data by different user than current one
         let authHeader = req.headers.authorization;
         let token = authHeader.split(' ')[1];
         let decoded = jwt_decode(token);
