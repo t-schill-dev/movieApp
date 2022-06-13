@@ -22,11 +22,11 @@ const res = require("express/lib/response");
 //     useUnifiedTopology: true
 // });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(express.static(path.join(__dirname, "./public")));
-
+// Connection to remote DB
+mongoose.connect(process.env.CONNECTION_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
 //Restriction of cross origin access app.use needs to be before middleware routes like auth
 let allowedOrigins = [
     "http://localhost:1234",
@@ -47,16 +47,17 @@ app.use(
     })
 );
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.static(path.join(__dirname, "./public")));
+
 //Use passport from external files
 let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
 
-// Connection to remote DB
-mongoose.connect(process.env.CONNECTION_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+
 
 
 
