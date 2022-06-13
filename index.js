@@ -31,6 +31,7 @@ app.use(express.static(path.join(__dirname, "./public")));
 let allowedOrigins = [
     "http://localhost:1234",
     "https://web-flix-movies.herokuapp.com/",
+    "https://webflix-movies.netlify.app/"
 ];
 app.use(
     cors({
