@@ -250,28 +250,28 @@ app.delete(
     "/users/:Username",
     passport.authenticate("jwt", { session: false }),
     (req, res) => {
-        //Reject change of data by different user than current one
-        // let authHeader = req.headers.authorization;
-        // let token = authHeader.split(' ')[1];
-        // let decoded = jwt_decode(token);
-        // let user = req.params.Username;
-        // if (decoded.username !== user) {
-        //     res.status(401).send('This operation is not authorized')
-        // } else {
-        Users.findOneAndRemove({ username: req.params.Username })
-            .then((user) => {
-                if (!user) {
-                    res.status(400).send(req.params.Username + " was not found");
-                } else {
-                    res.status(200).send(req.params.Username + " was deleted");
-                }
-            })
-            .catch((err) => {
-                console.error(err);
-                res.status(500).send("Error: " + err);
-            });
+        // Reject change of data by different user than current one
+        let authHeader = req.headers.authorization;
+        let token = authHeader.split(' ')[1];
+        let decoded = jwt_decode(token);
+        let user = req.params.Username;
+        if (decoded.username !== user) {
+            res.status(401).send('This operation is not authorized')
+        } else {
+            Users.findOneAndRemove({ username: req.params.Username })
+                .then((user) => {
+                    if (!user) {
+                        res.status(400).send(req.params.Username + " was not found");
+                    } else {
+                        res.status(200).send(req.params.Username + " was deleted");
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                    res.status(500).send("Error: " + err);
+                });
+        }
     }
-
 );
 
 // MOVIES
