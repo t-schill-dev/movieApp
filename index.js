@@ -30,8 +30,8 @@ mongoose.connect(process.env.CONNECTION_URI, {
 //Restriction of cross origin access app.use needs to be before middleware routes like auth
 let allowedOrigins = [
     "http://localhost:1234",
-    "https://web-flix-movies.herokuapp.com/",
-    "https://webflix-movies.netlify.app/"
+    "https://web-flix-movies.herokuapp.com",
+    "https://webflix-movies.netlify.app"
 ];
 app.use(
     cors({
