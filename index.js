@@ -80,6 +80,7 @@ app.post(
         ).isAlphanumeric(),
         check("password", "Password is required").not().isEmpty(),
         check("email", "Email does not appear to be valid").isEmail(),
+        check('birthday', 'Birthday is required').not().isEmpty()
     ],
     (req, res) => {
         // check validation object for errors
@@ -97,10 +98,11 @@ app.post(
                 } else {
                     //create User with mongoose create command
                     Users.create({
+                            birthday: req.body.birthday,
                             username: req.body.username,
                             password: hashedPassword,
                             email: req.body.email,
-                            birthday: req.body.birthday,
+
                         })
                         .then((user) => {
                             res.status(201).json(user);
