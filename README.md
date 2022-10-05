@@ -43,7 +43,7 @@ npx nodemon index.js
 ```
 After every save it restarts the server
 
-For more information see the [![documentation](https://www.npmjs.com/package/nodemon)
+For more information see the [documentation](https://www.npmjs.com/package/nodemon)
 
 ### Hosting
 - Heroku
