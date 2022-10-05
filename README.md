@@ -6,7 +6,7 @@ MongoDB serves as database.
 
 ## Installation
 
-Install dependencies for meet-app with npm
+Install dependencies for web-flix-app with npm
 
 ```bash
   git clone https://github.com/t-schill-dev/web-flix-app.git
@@ -43,7 +43,7 @@ npx nodemon index.js
 ```
 After every save it restarts the server
 
-For more information see the ![documentation](https://www.npmjs.com/package/nodemon)
+For more information see the [![documentation](https://www.npmjs.com/package/nodemon)
 
 ### Hosting
 - Heroku
@@ -52,17 +52,12 @@ To sync local changes to hosted db, use
 git push heroku main
 ```
 
-## Screenshots
-
-![App Screenshot](https://freeimage.host/i/U4OYdv)
-
-
 ## Demo
 
 The app is hosted on netlify.
 Access it using [this]( https://webflix-movies.netlify.app/) project link
 ## 🔗 Links
-[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](http://timon-schill.atwebpages.com/)
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://t-schill-dev.github.io/portfolio-website/)
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/timon-schill/)
 
 
