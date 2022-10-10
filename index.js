@@ -35,8 +35,9 @@ mongoose.connect(process.env.CONNECTION_URI, {
 let allowedOrigins = [
     "http://localhost:1234",
     "http://localhost:4200",
-    "https://web-flix-movies.herokuapp.com",
-    "https://webflix-movies.netlify.app"
+    "https://web-flix-app.vercel.app",
+    "https://t-schill-dev.github.io/web-flix-angular-client", // Angular App
+    "https://webflix-movies.netlify.app" // React app
 ];
 // Using CORS restriction on app
 app.use(
