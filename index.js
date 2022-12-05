@@ -7,6 +7,7 @@ const express = require("express"),
     bodyParser = require("body-parser"),
     path = require("path"),
     mongoose = require("mongoose"),
+   // {MongoClient} = require('mongodb'), 
     Models = require("./models.js");
 
 const Movies = Models.Movie,
@@ -27,15 +28,23 @@ const res = require("express/lib/response");
  * @param {string} uri encoded key, retrieved from Heroku host
  * @requires mongoose
  */
-mongoose.connect(process.env.CONNECTION_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+ const connectDB = async () => {
+    try {
+      const conn = await mongoose.connect(process.env.CONNECTION_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
+      console.log(`MongoDB Connected: ${conn.connection.host}`);
+    } catch (error) {
+      console.log(error);
+      process.exit(1);
+    }
+  }
+
 //Restriction of cross origin access app.use needs to be before middleware routes like auth
 let allowedOrigins = [
     "http://localhost:1234",
     "http://localhost:4200",
-    "https://web-flix-app.vercel.app",
     "https://t-schill-dev.github.io/web-flix-angular-client", // Angular App
     "https://webflix-movies.netlify.app" // React app
 ];
@@ -498,8 +507,12 @@ app.get(
             });
     }
 );
+
+// Async promise to make sure that it is connected to DB before listening
 const port = process.env.PORT || 8080;
-app.listen(port, "0.0.0.0", () => {
-    console.log("Your app ist listening on port " + port);
-    // Connection to port
+connectDB().then(()=> {
+    app.listen(port, "0.0.0.0", () => {
+        console.log("Your app ist listening on port " + port);
+        // Connection to port
+})
 });
