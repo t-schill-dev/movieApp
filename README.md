@@ -46,16 +46,10 @@ After every save it restarts the server
 For more information see the [documentation](https://www.npmjs.com/package/nodemon)
 
 ### Hosting
-- Heroku
-To sync local changes to hosted db, use
-```bash
-git push heroku main
-```
+- Cyclic
+The app is synced with the service of Cyclic.sh
 
-## Demo
 
-The app is hosted on netlify.
-Access it using [this]( https://webflix-movies.netlify.app/) project link
 ## 🔗 Links
 [![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://t-schill-dev.github.io/portfolio-website/)
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/timon-schill/)
