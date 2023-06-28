@@ -46,7 +46,7 @@ let allowedOrigins = [
   "http://localhost:1234",
   "http://localhost:4200",
   "https://timonschill.dev",
-  "https://webflix-movies-angular.netlify.app/", // Angular App
+  "https://webflix-movies-angular.netlify.app", // Angular App
   "https://webflix-movies-react.netlify.app", // React app
 ];
 // Using CORS restriction on app
